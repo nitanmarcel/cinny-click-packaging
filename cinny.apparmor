@@ -1,0 +1,10 @@
+{
+    "template": "unconfined",
+    "policy_groups": [
+        "networking",
+        "content_exchange",
+        "keep-display-on",
+        "webview"
+    ],
+    "policy_version": 16.04
+}

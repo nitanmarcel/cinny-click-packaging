@@ -1,0 +1,85 @@
+From 90aacb0be16ba47da7fee1e1493a418ff1b6d50f Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Wed, 23 Mar 2022 11:52:06 +0200
+Subject: [PATCH] Fix loading on older browsers
+
+---
+ src/app/molecules/space-add-existing/SpaceAddExisting.jsx | 4 ++--
+ src/app/organisms/navigation/common.js                    | 4 ++--
+ src/client/state/RoomsInput.js                            | 4 ++--
+ src/util/AsyncSearch.js                                   | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/src/app/molecules/space-add-existing/SpaceAddExisting.jsx b/src/app/molecules/space-add-existing/SpaceAddExisting.jsx
+index f7a3120..a9de7bd 100644
+--- a/src/app/molecules/space-add-existing/SpaceAddExisting.jsx
++++ b/src/app/molecules/space-add-existing/SpaceAddExisting.jsx
+@@ -88,7 +88,7 @@ function SpaceAddExistingContent({ roomId }) {
+   };
+ 
+   const handleSearch = (ev) => {
+-    const term = ev.target.value.toLocaleLowerCase().replaceAll(' ', '');
++    const term = ev.target.value.toLocaleLowerCase().replace(/\s/g, '');
+     if (term === '') {
+       setSearchIds(null);
+       return;
+@@ -100,7 +100,7 @@ function SpaceAddExistingContent({ roomId }) {
+         if (!name) return false;
+         name = name.normalize('NFKC')
+           .toLocaleLowerCase()
+-          .replaceAll(' ', '');
++          .replace(/\s/g, '');
+         return name.includes(term);
+       });
+       setSearchIds(searchedIds);
+diff --git a/src/app/organisms/navigation/common.js b/src/app/organisms/navigation/common.js
+index 3c37e54..04b0ed0 100644
+--- a/src/app/organisms/navigation/common.js
++++ b/src/app/organisms/navigation/common.js
+@@ -6,8 +6,8 @@ function AtoZ(aId, bId) {
+ 
+   // remove "#" from the room name
+   // To ignore it in sorting
+-  aName = aName.replaceAll('#', '');
+-  bName = bName.replaceAll('#', '');
++  aName = aName.replace(/#/g, '');
++  bName = bName.replace(/#/g, '');
+ 
+   if (aName.toLowerCase() < bName.toLowerCase()) {
+     return -1;
+diff --git a/src/client/state/RoomsInput.js b/src/client/state/RoomsInput.js
+index 3bb3688..1e2fa19 100644
+--- a/src/client/state/RoomsInput.js
++++ b/src/client/state/RoomsInput.js
+@@ -97,13 +97,13 @@ function getFormattedBody(markdown) {
+ function getReplyFormattedBody(roomId, reply) {
+   const replyToLink = `<a href="https://matrix.to/#/${roomId}/${reply.eventId}">In reply to</a>`;
+   const userLink = `<a href="https://matrix.to/#/${reply.userId}">${reply.userId}</a>`;
+-  const formattedReply = getFormattedBody(reply.body.replaceAll('\n', '\n> '));
++  const formattedReply = getFormattedBody(reply.body.replace(/\n/g, '\n> '));
+   return `<mx-reply><blockquote>${replyToLink}${userLink}<br />${formattedReply}</blockquote></mx-reply>`;
+ }
+ 
+ function bindReplyToContent(roomId, reply, content) {
+   const newContent = { ...content };
+-  newContent.body = `> <${reply.userId}> ${reply.body.replaceAll('\n', '\n> ')}`;
++  newContent.body = `> <${reply.userId}> ${reply.body.replace(/\n/g, '\n> ')}`;
+   newContent.body += `\n\n${content.body}`;
+   newContent.format = 'org.matrix.custom.html';
+   newContent['m.relates_to'] = content['m.relates_to'] || {};
+diff --git a/src/util/AsyncSearch.js b/src/util/AsyncSearch.js
+index eb39f29..d0a2130 100644
+--- a/src/util/AsyncSearch.js
++++ b/src/util/AsyncSearch.js
+@@ -123,7 +123,7 @@ class AsyncSearch extends EventEmitter {
+   _normalize(item) {
+     let myItem = item.normalize(this.normalizeUnicode ? 'NFKC' : 'NFC');
+     if (!this.isCaseSensitive) myItem = myItem.toLocaleLowerCase();
+-    if (this.ignoreWhitespace) myItem = myItem.replaceAll(' ', '');
++    if (this.ignoreWhitespace) myItem = myItem.replace(/\s/g, '');
+     return myItem;
+   }
+ 
+-- 
+2.30.2
+
