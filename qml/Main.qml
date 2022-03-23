@@ -71,7 +71,7 @@ MainView {
                     onDownloadRequested : function (download) {}
                     onDownloadFinished : function (download) {}
                 }
-                onNewViewRequested : function (download) {
+                onNewViewRequested : function (request) {
                     request.action = WebEngineNavigationRequest.IgnoreRequest
                     if (request.userInitiated) {
                         if (request
