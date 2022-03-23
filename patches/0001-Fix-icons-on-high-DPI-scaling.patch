@@ -1,0 +1,41 @@
+From dd0d0e7a32db88c29901191d31b1a95514f89585 Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Wed, 23 Mar 2022 22:56:02 +0200
+Subject: [PATCH] Fix icons on high DPI scaling
+
+---
+ src/app/atoms/system-icons/RawIcon.jsx | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/src/app/atoms/system-icons/RawIcon.jsx b/src/app/atoms/system-icons/RawIcon.jsx
+index 08acc66..5752f70 100644
+--- a/src/app/atoms/system-icons/RawIcon.jsx
++++ b/src/app/atoms/system-icons/RawIcon.jsx
+@@ -6,14 +6,16 @@ function RawIcon({
+   color, size, src, isImage,
+ }) {
+   const style = {};
+-  if (color !== null) style.backgroundColor = color;
+-  if (isImage) {
+-    style.backgroundColor = 'transparent';
+-    style.backgroundImage = `url(${src})`;
+-  } else {
+-    style.WebkitMaskImage = `url(${src})`;
+-    style.maskImage = `url(${src})`;
+-  }
++  style.backgroundColor = 'transparent';
++  style.backgroundImage = `url(${src})`;
++  // if (color !== null) style.backgroundColor = color;
++  // if (isImage) {
++  //   style.backgroundColor = 'transparent';
++  //   style.backgroundImage = `url(${src})`;
++  // } else {
++  //   style.WebkitMaskImage = `url(${src})`;
++  //   style.maskImage = `url(${src})`;
++  // }
+ 
+   return <span className={`ic-raw ic-raw-${size}`} style={style}> </span>;
+ }
+-- 
+2.30.2
+
