@@ -1,0 +1,18 @@
+diff --git a/src/app/atoms/system-icons/RawIcon.scss b/src/app/atoms/system-icons/RawIcon.scss
+index 56fc9b3..1b16fdd 100644
+--- a/src/app/atoms/system-icons/RawIcon.scss
++++ b/src/app/atoms/system-icons/RawIcon.scss
+@@ -13,6 +13,13 @@
+ 
+   background-size: cover;
+   background-repeat: no-repeat;
++
++  filter: invert(33%) sepia(0%) saturate(1346%) hue-rotate(244deg) brightness(95%) contrast(60%);
++
++  @media (prefers-color-scheme: dark) {
++    filter: invert(99%) sepia(41%) saturate(0%) hue-rotate(17deg) brightness(102%) contrast(100%);
++    opacity: 0.84;
++  }
+ }
+ .ic-raw-large {
+   @include icSize(var(--ic-large));
