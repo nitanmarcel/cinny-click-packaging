@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>Main.qml</file>
+        <file>DownloadPage.qml</file>
     </qresource>
 </RCC>
