@@ -1,57 +1,38 @@
-From 6b3db81f70321db0e0dda393f48a50eef3962e01 Mon Sep 17 00:00:00 2001
+From aa94e4c644747ef113927f762cb5807e4bd26cb8 Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Thu, 24 Mar 2022 14:56:58 +0200
-Subject: [PATCH] Create data url instead of object url
+Date: Sat, 26 Mar 2022 00:59:51 +0200
+Subject: [PATCH] Create data urls instead of object urls on media download
 
 ---
- src/app/molecules/media/Media.jsx        | 4 ++--
- src/app/organisms/room/RoomViewInput.jsx | 2 +-
- src/client/state/RoomsInput.js           | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ src/app/molecules/media/Media.jsx | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/src/app/molecules/media/Media.jsx b/src/app/molecules/media/Media.jsx
-index 6fc3851..f119e40 100644
+index 6fc3851..5a9131c 100644
 --- a/src/app/molecules/media/Media.jsx
 +++ b/src/app/molecules/media/Media.jsx
-@@ -52,10 +52,10 @@ async function getUrl(link, type, decryptData) {
+@@ -41,6 +41,8 @@ function getBlobSafeMimeType(mimetype) {
+   return mimetype;
+ }
+ 
++const fileReader = new FileReader();
++
+ async function getDecryptedBlob(response, type, decryptData) {
+   const arrayBuffer = await response.arrayBuffer();
+   const dataArray = await encrypt.decryptAttachment(arrayBuffer, decryptData);
+@@ -52,10 +54,10 @@ async function getUrl(link, type, decryptData) {
    try {
      const response = await fetch(link, { method: 'GET' });
      if (decryptData !== null) {
 -      return URL.createObjectURL(await getDecryptedBlob(response, type, decryptData));
-+      return FileReader().readAsDataURL(await getDecryptedBlob(response, type, decryptData));
++      return fileReader.readAsDataURL(await getDecryptedBlob(response, type, decryptData));
      }
      const blob = await response.blob();
 -    return URL.createObjectURL(blob);
-+    return FileReader().readAsDataURL(blob);
++    return fileReader.readAsDataURL(blob);
    } catch (e) {
      return link;
    }
-diff --git a/src/app/organisms/room/RoomViewInput.jsx b/src/app/organisms/room/RoomViewInput.jsx
-index 37e0298..4d9d76d 100644
---- a/src/app/organisms/room/RoomViewInput.jsx
-+++ b/src/app/organisms/room/RoomViewInput.jsx
-@@ -361,7 +361,7 @@ function RoomViewInput({
-     return (
-       <div className="room-attachment">
-         <div className={`room-attachment__preview${fileType !== 'image' ? ' room-attachment__icon' : ''}`}>
--          {fileType === 'image' && <img alt={attachment.name} src={URL.createObjectURL(attachment)} />}
-+          {fileType === 'image' && <img alt={attachment.name} src={FileReader().readAsDataURL(attachment)} />}
-           {fileType === 'video' && <RawIcon src={VLCIC} />}
-           {fileType === 'audio' && <RawIcon src={VolumeFullIC} />}
-           {fileType !== 'image' && fileType !== 'video' && fileType !== 'audio' && <RawIcon src={FileIC} />}
-diff --git a/src/client/state/RoomsInput.js b/src/client/state/RoomsInput.js
-index 3bb3688..4010ce7 100644
---- a/src/client/state/RoomsInput.js
-+++ b/src/client/state/RoomsInput.js
-@@ -16,7 +16,7 @@ function getImageDimension(file) {
-         h: img.height,
-       });
-     };
--    img.src = URL.createObjectURL(file);
-+    img.src = FileReader().readAsDataURL(file);
-   });
- }
- function loadVideo(videoFile) {
 -- 
 2.30.2
 
