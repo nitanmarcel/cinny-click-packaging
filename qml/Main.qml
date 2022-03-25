@@ -21,6 +21,7 @@ import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 import QtQml 2.12
 import QtWebEngine 1.8
+import QtWebChannel 1.0
 import Backend 1.0
 
 // Comment
@@ -46,8 +47,6 @@ MainView {
             }
         }
     }
-
-    
     
     PageStack {
         id : mainPageStack
@@ -61,6 +60,7 @@ MainView {
                 anchors.fill : parent
                 focus : true
                 url : Qt.resolvedUrl(Backend.getIndexPath())
+                webChannel: channel
                 //zoomFactor : 2.5
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
@@ -85,8 +85,16 @@ MainView {
                 }
                 onFileDialogRequested : function (request) {}
             }
-        }
+            WebChannel {
+                id: channel
+                registeredObjects: [webChannelObject]
+            }
 
+            QtObject {
+                id: webChannelObject
+                WebChannel.id: "webChannelBackend"
+            }
+        }
 
         Dialog {
             id : downloadDialog

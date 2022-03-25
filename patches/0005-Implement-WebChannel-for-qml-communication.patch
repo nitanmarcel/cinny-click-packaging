@@ -1,0 +1,34 @@
+From 0524e233ba115e4215d581eb2e25abe145c9ec92 Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Fri, 25 Mar 2022 18:56:38 +0200
+Subject: [PATCH] Implement WebChannel for qml communication
+
+---
+ public/index.html | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/public/index.html b/public/index.html
+index a4a3119..33dc51a 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -1,6 +1,17 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
++    <script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
++
++    <script type="text/javascript">
++        var QML;
++        window.onload = function() {
++            new QWebChannel(qt.webChannelTransport, function(channel) {
++                QML = channel.objects.webChannelBackend;
++            });
++        }
++    </script>
++
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-- 
+2.30.2
+
