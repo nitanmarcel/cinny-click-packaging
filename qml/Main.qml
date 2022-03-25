@@ -17,6 +17,8 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import Ubuntu.Components 1.3
+import Ubuntu.Content 1.3
+import Ubuntu.DownloadManager 1.2
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 import QtQml 2.12
@@ -68,22 +70,29 @@ MainView {
                     id : webContext
                     storageName : "Storage"
                     persistentStoragePath : "/home/phablet/.cache/cinny.nitanmarcel/cinny.nitanmarcel/QtWebEngine"
-                    onDownloadRequested : function (download) {}
-                    onDownloadFinished : function (download) {}
+
+                    onDownloadRequested: function (download) {
+                         console.log("Downloading")
+                         console.log(download.path)
+                         download.accept()
+                    }
+
                 }
                 onNewViewRequested : function (request) {
                     request.action = WebEngineNavigationRequest.IgnoreRequest
-                    if (request.userInitiated) {
-                        if (request
-                                .requestedUrl
-                                .toString()
-                                .match("blod:file:.*")) {}
-                        else {
-                            Qt.openUrlExternally(request.requestedUrl)
-                        }
+                    if (request.requestedUrl !== "ignore://") {
+                        Qt.openUrlExternally(request.requestedUrl)
                     }
                 }
-                onFileDialogRequested : function (request) {}
+                onFileDialogRequested : function (request) {
+                    request.accepted = true;
+                    var uploadPage = mainPageStack.push(Qt.resolvedUrl("UploadPage.qml"), {"contentType": ContentType.All, "handler": ContentHandler.Source})
+                    uploadPage.imported.connect(function (fileUrl) {
+                        request.dialogAccept(String(fileUrl).replace("file://", ""));
+                        mainPageStack.push(mainPage)
+                    })
+                }
+
             }
             WebChannel {
                 id: channel
@@ -93,23 +102,12 @@ MainView {
             QtObject {
                 id: webChannelObject
                 WebChannel.id: "webChannelBackend"
-            }
-        }
 
-        Dialog {
-            id : downloadDialog
-            parent : mainView
-            modal : true
-            width : parent.width
-            title : "Downloading.."
-            standardButtons : Dialog.Cancel
-            Column {
-                anchors.fill : parent
-                Label {
-                    text : "Your file is being downloaded."
+                function downloadMedia(fileUrl) {
+                    console.log("Download")
+                    var downloadPage = mainPageStack.push(Qt.resolvedUrl("DownloadPage.qml"), {"url": fileUrl, "contentType": ContentType.All, "handler": ContentHandler.Destination})
                 }
             }
-            onRejected : function () {}
         }
     }
 }

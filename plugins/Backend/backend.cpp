@@ -16,6 +16,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QFile>
 #include <QString>
 
 #include "backend.h"
@@ -28,4 +29,13 @@ QString Backend::getIndexPath() {
     QDir applicationCwd = QDir::currentPath();
     QDir targetPath = QDir::cleanPath(applicationCwd.path() + QDir::separator() + QString("target"));
     return QString("file://") + targetPath.filePath("index.html");
+}
+
+void Backend::removeDownload(QString path) {
+    if (path.startsWith(QString("file://"))) {
+        QFile file(path.replace(QString("file://"), QString("")));
+        if (file.exists()) {
+            file.remove();
+        }
+    }
 }

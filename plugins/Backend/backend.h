@@ -28,6 +28,7 @@ public:
     ~Backend() = default;
 
     Q_INVOKABLE QString getIndexPath();
+    Q_INVOKABLE void removeDownload(QString path);
 };
 
 #endif

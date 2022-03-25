@@ -1,0 +1,46 @@
+From f4aefbc12103f50041244d8243a83c01b80a8b95 Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Fri, 25 Mar 2022 23:47:05 +0200
+Subject: [PATCH] Download media using qml backend
+
+---
+ src/app/molecules/media/Media.jsx | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/src/app/molecules/media/Media.jsx b/src/app/molecules/media/Media.jsx
+index f119e40..65ae00d 100644
+--- a/src/app/molecules/media/Media.jsx
++++ b/src/app/molecules/media/Media.jsx
+@@ -79,10 +79,11 @@ function FileHeader({
+   }
+ 
+   async function handleDownload(e) {
+-    if (file !== null && url === null) {
++    if (link !== null || url != null) {
+       e.preventDefault();
+-      await getFile();
+-      e.target.click();
++      QML.downloadMedia(url || link)
++      // await getFile();
++      // e.target.click();
+     }
+   }
+   return (
+@@ -100,12 +101,12 @@ function FileHeader({
+               />
+             )
+           }
+-          <a href={url || link} download={name} target="_blank" rel="noreferrer">
++          <a href="ignore://" download={name} target="_blank" rel="noreferrer">
+             <IconButton
+               size="extra-small"
+               tooltip="Download"
+               src={DownloadSVG}
+-              onClick={handleDownload}
++              onClick={() => QML.downloadMedia(url || link)}
+             />
+           </a>
+         </>
+-- 
+2.30.2
+
