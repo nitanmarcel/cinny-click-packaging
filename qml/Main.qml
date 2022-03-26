@@ -17,6 +17,7 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Content 1.3
 import Ubuntu.DownloadManager 1.2
 import QtQuick.Layouts 1.3
@@ -93,6 +94,19 @@ MainView {
                     })
                 }
 
+                onJavaScriptDialogRequested: function (request) {
+                    request.accepted = true;
+                    var popup = PopupUtils.open(jsDialogComponent, this, {"title": request.title, "message": request.message})
+                    popup.dialogAccepted.connect(function () {
+                        request.dialogAccept()
+                        PopupUtils.close(popup)
+                    })
+                    popup.dialogRejected.connect(function () {
+                        request.dialogReject()
+                        PopupUtils.close(popup)
+                    })
+                }
+
             }
             WebChannel {
                 id: channel
@@ -106,6 +120,35 @@ MainView {
                 function downloadMedia(fileUrl) {
                     console.log("Download")
                     var downloadPage = mainPageStack.push(Qt.resolvedUrl("DownloadPage.qml"), {"url": fileUrl, "contentType": ContentType.All, "handler": ContentHandler.Destination})
+                }
+            }
+
+            Component {
+                id: jsDialogComponent
+
+                Dialog {
+
+                    id: jsDialog
+
+                    title: i18n.tr("Javascript Dialog")
+                    property var message
+
+                    signal dialogAccepted()
+                    signal dialogRejected()
+
+                    Label {
+                        wrapMode: Text.WordWrap
+                        text: jsDialog.message
+                    }
+
+                    Button {
+                        text: i18n.tr("Confirm")
+                        onClicked: () => dialogAccepted()
+                    }
+                    Button {
+                        text: i18n.tr("Cancel")
+                        onClicked: () => dialogRejected()
+                    }
                 }
             }
         }
