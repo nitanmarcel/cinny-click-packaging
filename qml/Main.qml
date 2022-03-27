@@ -50,6 +50,32 @@ MainView {
             }
         }
     }
+
+
+    Settings {
+        id: appSettings
+        property var systemTheme: 'Ambiance'
+    }
+
+    Component.onCompleted: function () {
+        theme.name = "" // set system theme
+        appSettings.systemTheme = theme.name.substring(theme.name.lastIndexOf(".")+1)
+    }
+
+    function setCurrentTheme(themeName) {
+            if (themeName === "System") {
+              theme.name = "";
+            }
+            else if (themeName === "SuruDark") {
+                theme.name = "Ubuntu.Components.Themes.SuruDark"
+            }
+            else if (themeName === "Ambiance") {
+                theme.name = "Ubuntu.Components.Themes.Ambiance"
+            }
+            else {
+              theme.name = "";
+            }
+        }
     
     PageStack {
         id : mainPageStack
@@ -117,9 +143,15 @@ MainView {
                 id: webChannelObject
                 WebChannel.id: "webChannelBackend"
 
+                property alias settings: appSettings
+
                 function downloadMedia(fileUrl) {
                     console.log("Download")
                     var downloadPage = mainPageStack.push(Qt.resolvedUrl("DownloadPage.qml"), {"url": fileUrl, "contentType": ContentType.All, "handler": ContentHandler.Destination})
+                }
+
+                function setTheme(themeName) {
+                    setCurrentTheme(themeName)
                 }
             }
 
