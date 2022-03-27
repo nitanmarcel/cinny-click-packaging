@@ -174,7 +174,8 @@ MainView {
                     }
 
                     Button {
-                        text: i18n.tr("Confirm")
+                        text: i18n.tr("Yes")
+                        color: UbuntuColors.green
                         onClicked: () => dialogAccepted()
                     }
                     Button {
