@@ -1,5 +1,4 @@
 {
-    "template": "unconfined",
     "policy_groups": [
         "networking",
         "content_exchange",
