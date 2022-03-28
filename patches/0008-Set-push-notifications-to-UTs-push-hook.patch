@@ -27,14 +27,14 @@ index bcf5c28..f9d1ab2 100644
      this.matrixClient.setGlobalErrorOnUnknownDevices(false);
 +
 +    this.setPush(QML.settings.pushToken, QML.settings.pushAppId)
-+    
++
 +    QML.matrixPushTokenChanged.connect(async function (token) {
 +      this.setPush(token, QML.settings.pushAppId)
-+      
++
 +    });
 +  }
 +
-+  
++
 +  setPush(token, appId) {
 +    this.matrixClient.setPusher(
 +      {
@@ -72,4 +72,3 @@ index 447d000..2542131 100644
      HOME: 'home',
 -- 
 2.30.2
-
