@@ -1,0 +1,9 @@
+[
+    {
+        "protocol": "cinny"
+    },
+    {
+        "protocol": "https",
+        "domain-suffix": "matrix.to/#/"
+    }
+]

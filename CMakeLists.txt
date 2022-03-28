@@ -3,6 +3,7 @@ project(cinny C CXX)
 
 # Automatically create moc files
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Qml REQUIRED)
@@ -42,6 +43,7 @@ endif()
 
 configure_file(manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/manifest.json)
 install(FILES content-hub.json DESTINATION ${DATA_DIR})
+install(FILES url-dispatcher.json DESTINATION ${DATA_DIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(FILES ${PROJECT_NAME}.apparmor DESTINATION ${DATA_DIR})
 install(FILES assets/logo.svg DESTINATION assets)
@@ -76,6 +78,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE_NAME} DESTINATION ${DAT
 
 add_subdirectory(po)
 add_subdirectory(plugins)
+add_subdirectory(push)
 
 # Make source files visible in qtcreator
 file(GLOB_RECURSE PROJECT_SRC_FILES

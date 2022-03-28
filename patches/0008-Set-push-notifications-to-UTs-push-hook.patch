@@ -1,0 +1,75 @@
+From e849e7d920f39ac19c5b158dd50755526fdd5df5 Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Tue, 29 Mar 2022 00:42:17 +0300
+Subject: [PATCH] Set push notifications to UTs push hook
+
+---
+ src/client/initMatrix.js | 31 +++++++++++++++++++++++++++++++
+ src/client/state/cons.js |  2 +-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+
+diff --git a/src/client/initMatrix.js b/src/client/initMatrix.js
+index bcf5c28..f9d1ab2 100644
+--- a/src/client/initMatrix.js
++++ b/src/client/initMatrix.js
+@@ -9,6 +9,8 @@ import RoomsInput from './state/RoomsInput';
+ import Notifications from './state/Notifications';
+ import { initHotkeys } from './event/hotkeys';
+ import { initRoomListListener } from './event/roomList';
++import { push } from 'micromark-util-chunked';
++import cons from './state/cons';
+ 
+ global.Olm = require('@matrix-org/olm');
+ 
+@@ -46,6 +48,35 @@ class InitMatrix extends EventEmitter {
+       lazyLoadMembers: true,
+     });
+     this.matrixClient.setGlobalErrorOnUnknownDevices(false);
++
++    this.setPush(QML.settings.pushToken, QML.settings.pushAppId)
++    
++    QML.matrixPushTokenChanged.connect(async function (token) {
++      this.setPush(token, QML.settings.pushAppId)
++      
++    });
++  }
++
++  
++  setPush(token, appId) {
++    this.matrixClient.setPusher(
++      {
++        "app_display_name": cons.DEVICE_DISPLAY_NAME,
++        "app_id": appId,
++        "append": true,
++        "data": {
++            "url": "https://push.ubports.com:5003/_matrix/push/v1/notify"
++        },
++        "device_display_name": cons.DEVICE_DISPLAY_NAME,
++        "lang": "en",
++        "kind": "http",
++        "profile_tag": "xxyyzz",
++        "pushkey": token
++      },
++      function () {}
++    )
++
++    //this.matrixClient.setPushRuleEnabled('global', 'content', '.m.rule.contains_user_name', true, function () {})
+   }
+ 
+   setupSync() {
+diff --git a/src/client/state/cons.js b/src/client/state/cons.js
+index 447d000..2542131 100644
+--- a/src/client/state/cons.js
++++ b/src/client/state/cons.js
+@@ -6,7 +6,7 @@ const cons = {
+     USER_ID: 'cinny_user_id',
+     BASE_URL: 'cinny_hs_base_url',
+   },
+-  DEVICE_DISPLAY_NAME: 'Cinny Web',
++  DEVICE_DISPLAY_NAME: 'Cinny Ubuntu Touch',
+   IN_CINNY_SPACES: 'in.cinny.spaces',
+   tabs: {
+     HOME: 'home',
+-- 
+2.30.2
+

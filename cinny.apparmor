@@ -3,7 +3,8 @@
         "networking",
         "content_exchange",
         "keep-display-on",
-        "webview"
+        "webview",
+        "push-notification-client"
     ],
     "policy_version": 16.04
 }

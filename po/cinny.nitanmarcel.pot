@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cinny.nitanmarcel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-27 18:34+0000\n"
+"POT-Creation-Date: 2022-03-28 22:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,15 +25,15 @@ msgstr ""
 msgid "Downloading"
 msgstr ""
 
-#: ../qml/DownloadPage.qml:126 ../qml/Main.qml:182
+#: ../qml/DownloadPage.qml:126 ../qml/Main.qml:193
 msgid "Cancel"
 msgstr ""
 
-#: ../qml/Main.qml:165
+#: ../qml/Main.qml:176
 msgid "Javascript Dialog"
 msgstr ""
 
-#: ../qml/Main.qml:177
+#: ../qml/Main.qml:188
 msgid "Yes"
 msgstr ""
 

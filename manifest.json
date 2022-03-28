@@ -8,9 +8,13 @@
             "apparmor": "cinny.apparmor",
             "desktop":  "cinny.desktop",
             "content-hub": "content-hub.json"
-        }
+        },
+        "push": {
+                "apparmor": "push-apparmor.json",
+                "push-helper": "push.json"
+            }
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "maintainer": "Marcel Alexandru Nitan <nitan.marcel@protonmail.com>",
     "framework" : "ubuntu-sdk-16.04.5"
 }

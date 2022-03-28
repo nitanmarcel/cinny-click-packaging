@@ -18,6 +18,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
+import Ubuntu.PushNotifications 0.1
 import Ubuntu.Content 1.3
 import Ubuntu.DownloadManager 1.2
 import QtQuick.Layouts 1.3
@@ -54,13 +55,20 @@ MainView {
 
     Settings {
         id: appSettings
-        property var systemTheme: 'Ambiance'
+        property string systemTheme: 'Ambiance'
+        property string pushToken: ''
+        property string pushAppId: 'cinny.nitanmarcel_cinny'
+        property bool windowActive: true
     }
 
     Component.onCompleted: function () {
         theme.name = "" // set system theme
         appSettings.systemTheme = theme.name.substring(theme.name.lastIndexOf(".")+1)
+
+        //appSettings.pushAppId = 'cinny.nitanmarcel_cinny'
+        console.log("appSettings.pushAppId  " + appSettings.pushAppId)
     }
+    onActiveChanged: () => {appSettings.windowActive = mainView.active}
 
     function setCurrentTheme(themeName) {
             if (themeName === "System") {
@@ -144,6 +152,9 @@ MainView {
                 WebChannel.id: "webChannelBackend"
 
                 property alias settings: appSettings
+                property alias push: pushClient
+
+                signal matrixPushTokenChanged();
 
                 function downloadMedia(fileUrl) {
                     console.log("Download")
@@ -184,6 +195,47 @@ MainView {
                     }
                 }
             }
+        }
+    }
+
+    PushClient {
+        id: pushClient
+        appId: appSettings.pushAppId
+
+        onTokenChanged: {
+            appSettings.pushToken = token
+            webChannelObject.matrixPushTokenChanged();
+        }
+
+        function sendPushNotification(icon, title, body) {
+            var req = new XMLHttpRequest();
+            req.open("post", "https://push.ubports.com/notify", true);
+            req.setRequestHeader("Content-type", "application/json");
+            req.onreadystatechange = function() {
+                    if ( req.readyState === XMLHttpRequest.DONE ) {
+                                    console.log("✍ Answer:", req.responseText);
+                    }
+            }
+            var approxExpire = new Date ();
+            approxExpire.setUTCMinutes(approxExpire.getUTCMinutes()+10);
+            req.send(JSON.stringify({
+                    "appid" : "cinny.nitanmarcel_cinny",
+                    "expire_on": approxExpire.toISOString(),
+                    "token": appSettings.pushToken,
+                    "data": {
+                            "notification": {
+                                    "card": {
+                                            "icon": icon,
+                                            "summary": title,
+                                            "body": body,
+                                            "popup": true,
+                                            "persist": true
+                                    },
+                            "vibrate": true,
+                            "sound": true
+                            }
+                    }
+            }));
         }
     }
 }

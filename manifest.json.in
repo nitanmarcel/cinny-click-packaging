@@ -7,10 +7,15 @@
         "cinny": {
             "apparmor": "cinny.apparmor",
             "desktop":  "cinny.desktop",
-            "content-hub": "content-hub.json"
-        }
+            "content-hub": "content-hub.json",
+            "urls": "url-dispatcher.json"
+        },
+        "push": {
+                "apparmor": "push/push-apparmor.json",
+                "push-helper": "push/push.json"
+            }
     },
-    "version": "1.0.0",
+    "version": "1.0.1",
     "maintainer": "Marcel Alexandru Nitan <nitan.marcel@protonmail.com>",
     "framework" : "@CLICK_FRAMEWORK@"
 }
