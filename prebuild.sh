@@ -23,6 +23,10 @@ if [ -d "${ROOT}/patches" ]; then
     done
 fi
 
+echo "Copying icons"
+cp "${ROOT}/svg/cinny_512.svg" "${ROOT}/assets/logo.svg"
+cp "${ROOT}/svg/cinny_18.svg" "${ROOT}/cinny/public/res/svg/cinny.svg"
+
 echo "Run npm install"
 npm install
 echo "Run npm build"
