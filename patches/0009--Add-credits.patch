@@ -1,0 +1,27 @@
+From a8677dcca3567de2b8327825835c34bb83426698 Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Tue, 29 Mar 2022 01:50:53 +0300
+Subject: [PATCH] Add credits
+
+---
+ src/app/organisms/settings/Settings.jsx | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/app/organisms/settings/Settings.jsx b/src/app/organisms/settings/Settings.jsx
+index f9cc631..203f821 100644
+--- a/src/app/organisms/settings/Settings.jsx
++++ b/src/app/organisms/settings/Settings.jsx
+@@ -223,6 +223,10 @@ function AboutSection() {
+             {/* eslint-disable-next-line react/jsx-one-expression-per-line */ }
+             <Text>The <a href="https://twemoji.twitter.com" target="_blank" rel="noreferrer noopener">Twemoji</a> emoji art is © <a href="https://twemoji.twitter.com" target="_blank" rel="noreferrer noopener">Twitter, Inc and other contributors</a> used under the terms of <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer noopener">CC-BY 4.0</a>.</Text>
+           </li>
++          <li>
++            {/* eslint-disable-next-line react/jsx-one-expression-per-line */ }
++            <Text>The <a href="https://github.com/nitanmarcel/cinny-click-packaging" target="_blank" rel="noreferrer noopener">cinny-click-packaging</a> for Ubuntu Touch is © <a href="https://github.com/nitanmarcel" target="_blank" rel="noreferrer noopener">Marcel Alexandru Nitan</a> used under the terms of <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noreferrer noopener">GNU GENERAL PUBLIC LICENSE v3.0</a>.</Text>
++          </li>
+         </ul>
+       </div>
+     </div>
+-- 
+2.30.2
+
