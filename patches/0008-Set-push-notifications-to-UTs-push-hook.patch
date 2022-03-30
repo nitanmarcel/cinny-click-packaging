@@ -1,15 +1,15 @@
-From e849e7d920f39ac19c5b158dd50755526fdd5df5 Mon Sep 17 00:00:00 2001
+From 1cc3347e0bfd70f69fde9f5ccbdb79f2faf8245c Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Tue, 29 Mar 2022 00:42:17 +0300
+Date: Thu, 31 Mar 2022 00:09:56 +0300
 Subject: [PATCH] Set push notifications to UTs push hook
 
 ---
- src/client/initMatrix.js | 31 +++++++++++++++++++++++++++++++
+ src/client/initMatrix.js | 38 ++++++++++++++++++++++++++++++++++++++
  src/client/state/cons.js |  2 +-
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ 2 files changed, 39 insertions(+), 1 deletion(-)
 
 diff --git a/src/client/initMatrix.js b/src/client/initMatrix.js
-index bcf5c28..f9d1ab2 100644
+index bcf5c28..3046544 100644
 --- a/src/client/initMatrix.js
 +++ b/src/client/initMatrix.js
 @@ -9,6 +9,8 @@ import RoomsInput from './state/RoomsInput';
@@ -21,21 +21,34 @@ index bcf5c28..f9d1ab2 100644
  
  global.Olm = require('@matrix-org/olm');
  
-@@ -46,6 +48,35 @@ class InitMatrix extends EventEmitter {
-       lazyLoadMembers: true,
-     });
+@@ -19,6 +21,18 @@ class InitMatrix extends EventEmitter {
+     await this.startClient();
+     this.setupSync();
+     this.listenEvents();
++
++    try {
++      this.setPush(QML.settings.pushToken, QML.settings.pushAppId)
++
++      QML.matrixPushTokenChanged.connect(async function (token) {
++        this.setPush(token, QML.settings.pushAppId)
++
++      });
++    }
++    catch {
++      console.log("Failed to update push rules!")
++    }
+   }
+ 
+   async startClient() {
+@@ -48,6 +62,30 @@ class InitMatrix extends EventEmitter {
      this.matrixClient.setGlobalErrorOnUnknownDevices(false);
-+
-+    this.setPush(QML.settings.pushToken, QML.settings.pushAppId)
-+
-+    QML.matrixPushTokenChanged.connect(async function (token) {
-+      this.setPush(token, QML.settings.pushAppId)
-+
-+    });
-+  }
-+
+   }
+ 
 +
 +  setPush(token, appId) {
++    var promises = []
++
++    promises.push(
 +    this.matrixClient.setPusher(
 +      {
 +        "app_display_name": cons.DEVICE_DISPLAY_NAME,
@@ -51,12 +64,13 @@ index bcf5c28..f9d1ab2 100644
 +        "pushkey": token
 +      },
 +      function () {}
-+    )
++    ))
++    this.matrixClient.setPushRuleEnabled('global', 'content', '.m.rule.contains_user_name', true, function () {})
++  }
 +
-+    //this.matrixClient.setPushRuleEnabled('global', 'content', '.m.rule.contains_user_name', true, function () {})
-   }
- 
    setupSync() {
+     const sync = {
+       NULL: () => {
 diff --git a/src/client/state/cons.js b/src/client/state/cons.js
 index 447d000..2542131 100644
 --- a/src/client/state/cons.js
@@ -72,3 +86,4 @@ index 447d000..2542131 100644
      HOME: 'home',
 -- 
 2.30.2
+
