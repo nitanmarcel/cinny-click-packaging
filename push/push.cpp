@@ -12,36 +12,63 @@ int main(int argc, char *argv[])
 
     std::ifstream f1(argv[1]);
     std::ofstream f2(argv[2]);
-    json jf1 = json::parse(f1);
-    json jf2;
+    json js1 = json::parse(f1);
+    json js2;
 
-    std::string mtype = jf1["message"]["type"].get<std::string>();
-    bool popup = (jf1["message"]["devices"][0]["tweaks"]["sound"].get<std::string>() != "");
-    int unread_count = jf1["message"]["counts"]["unread"];
-    if (mtype == "m.room.message")
-    {
-        jf2["notification"]["card"]["summary"] = (jf1["message"]["room_name"] != nullptr) ? jf1["message"]["room_name"] : jf1["message"]["sender_display_name"];
-        jf2["notification"]["card"]["body"] = jf1["message"]["sender_display_name"].get<std::string>() + ": " + jf1["message"]["content"]["body"].get<std::string>();
-        jf2["notification"]["card"]["icon"] = "contact-group";
-    }
-    if (mtype == "m.room.encrypted")
-    {
-        jf2["notification"]["card"]["summary"] = (jf1["message"]["room_name"] != nullptr) ? jf1["message"]["room_name"] : jf1["message"]["sender_display_name"];
-        jf2["notification"]["card"]["body"] = N_("New message");
-    }
-    if (popup)
-    {
+    std::string mtype = js1["message"]["type"].get<std::string>();
+    std::string summary = "";
+    std::string body = "";
+    std::string icon = "";
 
-        jf2["notification"]["vibrate"] = true;
-        jf2["notification"]["sound"] = true;
-        jf2["notification"]["card"]["persist"] = true;
-        jf2["notification"]["card"]["popup"] = true;
-        jf2["notification"]["card"]["icon"] = "contact-group";
-        jf2["notification"]["card"]["actions"] = {"cinny:\/\/" + jf1["message"]["room_id"].get<std::string>()};
-    }
-    jf2["notification"]["emblem-counter"]["count"] = unread_count;
-    jf2["notification"]["emblem-counter"]["visible"] = (unread_count > 0);
+    int unread_count = 0;
+    bool alert = false;
+    bool popup = false;
 
-    f2 << jf2;
+    if (js1["message"]["room_name"] != nullptr)
+    {
+        summary = js1["message"]["room_name"];
+    }
+    else
+    {
+        summary = js1["message"]["sender_display_name"];
+    }
+    if (mtype == "m.room.encrypted") {
+        body = N_("New Message");
+    }
+    else {
+        body = js1["message"]["sender_display_name"].get<std::string>() + ": " + js1["message"]["content"]["body"].get<std::string>();
+    }
+
+    if (js1["message"]["room_name"] == nullptr) {
+        icon = "contact";
+    }
+    else {
+        icon = "contact-group";
+    }
+
+    if (js1["message"]["devices"][0]["tweaks"]["sound"].get<std::string>() != "") {
+        alert = true;
+    }
+
+    if(summary != "" && body != ""){
+        popup = true;
+    }
+
+    unread_count = js1["message"]["counts"]["unread"];
+
+    js2["notification"]["card"]["actions"] = {"cinny://" + js1["message"]["room_id"].get<std::string>()};
+    js2["notification"]["card"]["summary"] = summary;
+    js2["notification"]["card"]["body"] = body;
+    js2["notification"]["card"]["icon"] = icon;
+    js2["notification"]["card"]["persist"] = popup;
+    js2["notification"]["card"]["popup"] = popup;
+
+    js2["notification"]["emblem-counter"]["count"] = unread_count;
+    js2["notification"]["emblem-counter"]["visible"] = unread_count > 0;
+
+    js2["notification"]["sound"] = alert;
+    js2["notification"]["vibrate"] = alert;
+    f2 << js2;
+
     return 0;
 }
