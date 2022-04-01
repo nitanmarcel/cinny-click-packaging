@@ -1,17 +1,17 @@
-From f4aefbc12103f50041244d8243a83c01b80a8b95 Mon Sep 17 00:00:00 2001
+From a1936e6dc3ee25dbc41d8d4374e38b0656e05a6e Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Fri, 25 Mar 2022 23:47:05 +0200
+Date: Fri, 1 Apr 2022 23:21:02 +0300
 Subject: [PATCH] Download media using qml backend
 
 ---
- src/app/molecules/media/Media.jsx | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ src/app/molecules/media/Media.jsx | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/src/app/molecules/media/Media.jsx b/src/app/molecules/media/Media.jsx
-index f119e40..65ae00d 100644
+index 262aa94..88f14ea 100644
 --- a/src/app/molecules/media/Media.jsx
 +++ b/src/app/molecules/media/Media.jsx
-@@ -79,10 +79,11 @@ function FileHeader({
+@@ -90,10 +90,10 @@ function FileHeader({
    }
  
    async function handleDownload(e) {
@@ -20,13 +20,12 @@ index f119e40..65ae00d 100644
        e.preventDefault();
 -      await getFile();
 -      e.target.click();
-+      QML.downloadMedia(url || link)
-+      // await getFile();
-+      // e.target.click();
++      const base64 = url != null ? url.split(',')[1] : link.split(',')[1];
++      QML.handleDownload(base64, name);
      }
    }
    return (
-@@ -100,12 +101,12 @@ function FileHeader({
+@@ -111,7 +111,7 @@ function FileHeader({
                />
              )
            }
@@ -35,12 +34,6 @@ index f119e40..65ae00d 100644
              <IconButton
                size="extra-small"
                tooltip="Download"
-               src={DownloadSVG}
--              onClick={handleDownload}
-+              onClick={() => QML.downloadMedia(url || link)}
-             />
-           </a>
-         </>
 -- 
 2.30.2
 

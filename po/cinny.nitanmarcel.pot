@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cinny.nitanmarcel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-30 21:12+0000\n"
+"POT-Creation-Date: 2022-04-01 20:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../qml/DownloadPage.qml:41
-msgid "Save with"
+#: ../qml/DownloadPage.qml:35 ../qml/UploadPage.qml:37
+msgid "Content Picker"
 msgstr ""
 
-#: ../qml/DownloadPage.qml:112
-msgid "Downloading"
+#: ../qml/DownloadPage.qml:40 ../qml/UploadPage.qml:42
+msgid "Back"
 msgstr ""
 
-#: ../qml/DownloadPage.qml:126 ../qml/Main.qml:193
-msgid "Cancel"
-msgstr ""
-
-#: ../qml/Main.qml:176
+#: ../qml/Main.qml:180
 msgid "Javascript Dialog"
 msgstr ""
 
-#: ../qml/Main.qml:188
+#: ../qml/Main.qml:192
 msgid "Yes"
 msgstr ""
 
-#: ../qml/UploadPage.qml:35
-msgid "Choose"
+#: ../qml/Main.qml:197
+msgid "Cancel"
 msgstr ""
 
 #: cinny.desktop.in.h:1
 msgid "Cinny"
-msgstr ""
-
-#: ../push/push.cpp:30
-msgid "New message"
 msgstr ""

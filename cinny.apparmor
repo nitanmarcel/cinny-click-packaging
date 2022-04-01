@@ -2,6 +2,7 @@
     "policy_groups": [
         "networking",
         "content_exchange",
+        "content_exchange_source",
         "keep-display-on",
         "webview",
         "push-notification-client"

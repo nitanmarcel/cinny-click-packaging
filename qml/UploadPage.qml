@@ -17,11 +17,12 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Content 1.3
+import Backend 1.0
 
 
 
 Page {
-  id: picker
+    id: picker
     property var activeTransfer
 
     property var url
@@ -30,9 +31,23 @@ Page {
 
     signal cancel()
     signal imported(string fileUrl)
+    signal rejected()
 
-    header: PageHeader {
-        title: i18n.tr("Choose")
+    header: PageHeader{
+        title: i18n.tr("Chose")
+        leadingActionBar.actions:[
+            Action {
+                id: backAction
+                iconName: "back"
+                text: i18n.tr('Back')
+                onTriggered:{
+                    Backend.removeDownload(url)
+                    rejected()
+                    pageStack.pop()
+
+                }
+            }
+        ]
     }
 
     ContentPeerPicker {
@@ -47,7 +62,7 @@ Page {
             picker.activeTransfer = peer.request()
             picker.activeTransfer.stateChanged.connect(function() {
                         if (picker.activeTransfer.state === ContentTransfer.InProgress) {
-                               console.log("In progress");
+                               console.log("In progress " + url);
                                picker.activeTransfer.items = picker.activeTransfer.items[0].url = url;
                                picker.activeTransfer.state = ContentTransfer.Charged;
                         }
@@ -56,6 +71,7 @@ Page {
                      picker.imported(picker.activeTransfer.items[0].url)
                                console.log(picker.activeTransfer.items[0].url)
                      picker.activeTransfer = null
+                    pageStack.pop()
                 }
             })
         }
@@ -63,6 +79,7 @@ Page {
 
         onCancelPressed: {
             console.log("Cancelled")
+            rejected()
             pageStack.pop()
         }
     }

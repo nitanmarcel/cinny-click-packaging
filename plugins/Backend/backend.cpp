@@ -18,6 +18,7 @@
 #include <QDir>
 #include <QFile>
 #include <QString>
+#include <QByteArray>
 
 #include "backend.h"
 
@@ -32,10 +33,17 @@ QString Backend::getIndexPath() {
 }
 
 void Backend::removeDownload(QString path) {
-    if (path.startsWith(QString("file://"))) {
-        QFile file(path.replace(QString("file://"), QString("")));
-        if (file.exists()) {
-            file.remove();
-        }
+    QFile file(path.replace(QString("file://"), QString("")));
+    if (file.exists()) {
+        file.remove();
     }
+}
+
+QString Backend::saveBase64File(QString fileBase64, QString fileName) {
+    QString path("/home/phablet/.cache/cinny.nitanmarcel" + QString(QDir::separator()) + fileName);
+    QFile file(path);
+    file.open(QIODevice::WriteOnly);
+    file.write(QByteArray::fromBase64(fileBase64.toLocal8Bit()));
+    file.close();
+    return path;
 }

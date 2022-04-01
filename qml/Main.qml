@@ -104,7 +104,7 @@ MainView {
                 profile : WebEngineProfile {
                     id : webContext
                     storageName : "Storage"
-                    persistentStoragePath : "/home/phablet/.cache/cinny.nitanmarcel/cinny.nitanmarcel/QtWebEngine"
+                    persistentStoragePath : "/home/phablet/.local/share/cinny.nitanmarcel/QWebEngine"
 
                     onDownloadRequested: function (download) {
                          console.log("Downloading")
@@ -123,8 +123,10 @@ MainView {
                     request.accepted = true;
                     var uploadPage = mainPageStack.push(Qt.resolvedUrl("UploadPage.qml"), {"contentType": ContentType.All, "handler": ContentHandler.Source})
                     uploadPage.imported.connect(function (fileUrl) {
-                        request.dialogAccept(String(fileUrl).replace("file://", ""));
-                        mainPageStack.push(mainPage)
+                        request.dialogAccept(fileUrl);
+                    })
+                    uploadPage.rejected.connect(function () {
+                        request.dialogReject()
                     })
                 }
 
@@ -156,9 +158,10 @@ MainView {
 
                 signal matrixPushTokenChanged();
 
-                function downloadMedia(fileUrl) {
-                    console.log("Download")
-                    var downloadPage = mainPageStack.push(Qt.resolvedUrl("DownloadPage.qml"), {"url": fileUrl, "contentType": ContentType.All, "handler": ContentHandler.Destination})
+                function handleDownload(fileBase64, fileName) {
+                    var filePath = Backend.saveBase64File(fileBase64, fileName)
+                    console.log("Downloaded to " + filePath)
+                    var downloadPage = mainPageStack.push(Qt.resolvedUrl("DownloadPage.qml"), {"url": filePath, "contentType": ContentType.All, "handler": ContentHandler.Destination})
                 }
 
                 function setTheme(themeName) {
