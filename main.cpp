@@ -20,12 +20,14 @@
 #include <QString>
 #include <QObject>
 #include <QQuickView>
+#include <QtQuickControls2/QQuickStyle>
 #include <stdlib.h>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
+    QQuickStyle::setStyle("Suru");
     app->setApplicationName("cinny.nitanmarcel");
 
     qDebug() << "Starting app from main.cpp";
@@ -35,15 +37,5 @@ int main(int argc, char *argv[])
     view->setSource(QUrl("qrc:/Main.qml"));
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->show();
-
-    
-
-    
-
-    // QString indexPath = app->applicationDirPath() + QString::fromStdString("target/index.html");
-
-    // QQuickItem *root = view->rootObject();
-    // root->findChild<QObject *>("webEngineView")->setProperty("url", indexPath);
-
     return app->exec();
 }
