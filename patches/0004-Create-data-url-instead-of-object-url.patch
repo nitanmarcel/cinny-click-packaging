@@ -1,35 +1,41 @@
-From aa94e4c644747ef113927f762cb5807e4bd26cb8 Mon Sep 17 00:00:00 2001
+From 04ce7f4f84d726f660c66e874b5bc91d77242eb5 Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Sat, 26 Mar 2022 00:59:51 +0200
-Subject: [PATCH] Create data urls instead of object urls on media download
+Date: Sat, 2 Apr 2022 00:11:12 +0300
+Subject: [PATCH] Create data url instead of object url
 
 ---
- src/app/molecules/media/Media.jsx | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ src/app/molecules/media/Media.jsx | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/src/app/molecules/media/Media.jsx b/src/app/molecules/media/Media.jsx
-index 6fc3851..5a9131c 100644
+index 6fc3851..262aa94 100644
 --- a/src/app/molecules/media/Media.jsx
 +++ b/src/app/molecules/media/Media.jsx
-@@ -41,6 +41,8 @@ function getBlobSafeMimeType(mimetype) {
-   return mimetype;
+@@ -48,14 +48,25 @@ async function getDecryptedBlob(response, type, decryptData) {
+   return blob;
  }
  
-+const fileReader = new FileReader();
++function getDataUrl(blob) {
++  return new Promise(function (resolve, reject) {
++    const reader = new FileReader();
++    reader.onload = function () {
++      resolve(reader.result);
++    }
++    reader.onerror = reject;
++    reader.readAsDataURL(blob);
++  });
++}
 +
- async function getDecryptedBlob(response, type, decryptData) {
-   const arrayBuffer = await response.arrayBuffer();
-   const dataArray = await encrypt.decryptAttachment(arrayBuffer, decryptData);
-@@ -52,10 +54,10 @@ async function getUrl(link, type, decryptData) {
+ async function getUrl(link, type, decryptData) {
    try {
      const response = await fetch(link, { method: 'GET' });
      if (decryptData !== null) {
 -      return URL.createObjectURL(await getDecryptedBlob(response, type, decryptData));
-+      return fileReader.readAsDataURL(await getDecryptedBlob(response, type, decryptData));
++      return await getDataUrl(await getDecryptedBlob(response, type, decryptData));
      }
      const blob = await response.blob();
 -    return URL.createObjectURL(blob);
-+    return fileReader.readAsDataURL(blob);
++    return await getDataUrl(blob);
    } catch (e) {
      return link;
    }
