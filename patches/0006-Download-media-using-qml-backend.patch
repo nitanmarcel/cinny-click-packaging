@@ -1,14 +1,14 @@
-From a1936e6dc3ee25dbc41d8d4374e38b0656e05a6e Mon Sep 17 00:00:00 2001
+From 373d90dbb1930f7b0f63b470832c418cb7632ab9 Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Fri, 1 Apr 2022 23:21:02 +0300
+Date: Sat, 2 Apr 2022 15:37:03 +0300
 Subject: [PATCH] Download media using qml backend
 
 ---
- src/app/molecules/media/Media.jsx | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ src/app/molecules/media/Media.jsx | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/src/app/molecules/media/Media.jsx b/src/app/molecules/media/Media.jsx
-index 262aa94..88f14ea 100644
+index 262aa94..8e89722 100644
 --- a/src/app/molecules/media/Media.jsx
 +++ b/src/app/molecules/media/Media.jsx
 @@ -90,10 +90,10 @@ function FileHeader({
@@ -25,15 +25,6 @@ index 262aa94..88f14ea 100644
      }
    }
    return (
-@@ -111,7 +111,7 @@ function FileHeader({
-               />
-             )
-           }
--          <a href={url || link} download={name} target="_blank" rel="noreferrer">
-+          <a href="ignore://" download={name} target="_blank" rel="noreferrer">
-             <IconButton
-               size="extra-small"
-               tooltip="Download"
 -- 
 2.30.2
 
