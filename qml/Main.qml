@@ -96,7 +96,7 @@ MainView {
                 id : webView
                 anchors.fill : parent
                 focus : true
-                url : Qt.resolvedUrl(Backend.getIndexPath())
+                url : "http://localhost:19999/" // Qt.resolvedUrl(Backend.getIndexPath())
                 webChannel: channel
                 //zoomFactor : 2.5
                 settings.pluginsEnabled : true
