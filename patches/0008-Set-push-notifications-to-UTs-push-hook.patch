@@ -1,27 +1,17 @@
-From 1cc3347e0bfd70f69fde9f5ccbdb79f2faf8245c Mon Sep 17 00:00:00 2001
+From 920ca66972190687262e5539b0a841d9b8bda6e3 Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Thu, 31 Mar 2022 00:09:56 +0300
+Date: Mon, 4 Apr 2022 21:19:30 +0300
 Subject: [PATCH] Set push notifications to UTs push hook
 
 ---
- src/client/initMatrix.js | 38 ++++++++++++++++++++++++++++++++++++++
- src/client/state/cons.js |  2 +-
- 2 files changed, 39 insertions(+), 1 deletion(-)
+ src/client/initMatrix.js | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/src/client/initMatrix.js b/src/client/initMatrix.js
-index bcf5c28..3046544 100644
+index f6fc9eb..663a2bf 100644
 --- a/src/client/initMatrix.js
 +++ b/src/client/initMatrix.js
-@@ -9,6 +9,8 @@ import RoomsInput from './state/RoomsInput';
- import Notifications from './state/Notifications';
- import { initHotkeys } from './event/hotkeys';
- import { initRoomListListener } from './event/roomList';
-+import { push } from 'micromark-util-chunked';
-+import cons from './state/cons';
- 
- global.Olm = require('@matrix-org/olm');
- 
-@@ -19,6 +21,18 @@ class InitMatrix extends EventEmitter {
+@@ -17,6 +17,18 @@ class InitMatrix extends EventEmitter {
      await this.startClient();
      this.setupSync();
      this.listenEvents();
@@ -40,11 +30,10 @@ index bcf5c28..3046544 100644
    }
  
    async startClient() {
-@@ -48,6 +62,30 @@ class InitMatrix extends EventEmitter {
+@@ -46,6 +58,29 @@ class InitMatrix extends EventEmitter {
      this.matrixClient.setGlobalErrorOnUnknownDevices(false);
    }
  
-+
 +  setPush(token, appId) {
 +    var promises = []
 +
@@ -71,19 +60,6 @@ index bcf5c28..3046544 100644
    setupSync() {
      const sync = {
        NULL: () => {
-diff --git a/src/client/state/cons.js b/src/client/state/cons.js
-index 447d000..2542131 100644
---- a/src/client/state/cons.js
-+++ b/src/client/state/cons.js
-@@ -6,7 +6,7 @@ const cons = {
-     USER_ID: 'cinny_user_id',
-     BASE_URL: 'cinny_hs_base_url',
-   },
--  DEVICE_DISPLAY_NAME: 'Cinny Web',
-+  DEVICE_DISPLAY_NAME: 'Cinny Ubuntu Touch',
-   IN_CINNY_SPACES: 'in.cinny.spaces',
-   tabs: {
-     HOME: 'home',
 -- 
 2.30.2
 
