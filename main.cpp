@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
                       else
                           res->addHeader("Content-Type", "application/octet-stream");
                       res->setStatusCode(qhttp::TStatusCode::ESTATUS_OK);
-                      res->end(doc.readAll());
+                      res->write(doc.readAll());
                   });
 
     QQuickView *view = new QQuickView();
