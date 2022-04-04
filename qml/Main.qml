@@ -143,6 +143,14 @@ MainView {
                     })
                 }
 
+                onFullScreenRequested : function (request) {
+                    request.accept()
+                    if (request.toggleOn)
+                        window.showFullScreen()
+                    else
+                        window.showNormal()
+                }
+
             }
 
             Connections {
