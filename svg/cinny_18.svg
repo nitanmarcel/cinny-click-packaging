@@ -1,19 +1,64 @@
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In  -->
-<svg version="1.1"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-	 x="0px" y="0px" width="18px" height="18px" viewBox="0 0 18 18" enable-background="new 0 0 18 18" xml:space="preserve">
-<defs>
-</defs>
-<g>
-	<g>
-		<circle fill="#E95420" cx="9" cy="9" r="8.5"/>
-	</g>
-	<g>
-		<path d="M9,0C4,0,0,4,0,9c0,5,4,9,9,9c5,0,9-4,9-9C18,4,14,0,9,0z M1.2,10.8l3.5-2.3c0-0.1,0-0.2,0-0.3c0-1.8,1.3-3.2,3.1-3.4
-			c0.1,0,0.2,0,0.4,0c1.2,0,2.3,0.6,2.9,1.6c0.3-0.1,0.6-0.1,0.9-0.1c0.4,0,0.8,0,1.2,0.1c0.7,0.2,1.4,0.5,2,0.9
-			C14.6,7.1,14,7,13.3,7c-1.2,0-2.2,0.4-2.9,1.4c-0.7,0.9-1.1,2-1.1,3.2c0,1.5-0.4,2.9-1.3,4.2c-0.3,0.4-0.5,0.7-0.8,1
-			C4.2,16.1,1.9,13.8,1.2,10.8z"/>
-		<circle cx="9.5" cy="6.4" r="0.5"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="18px"
+   height="18px"
+   viewBox="0 0 512 512"
+   enable-background="new 0 0 512 512"
+   xml:space="preserve"
+   sodipodi:docname="cinny_18.svg"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs856" /><sodipodi:namedview
+   id="namedview854"
+   pagecolor="#505050"
+   bordercolor="#eeeeee"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="42.722222"
+   inkscape:cx="9"
+   inkscape:cy="9"
+   inkscape:window-width="1920"
+   inkscape:window-height="991"
+   inkscape:window-x="-9"
+   inkscape:window-y="-9"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<rect
+   fill="#fdb714"
+   width="512"
+   height="512.71198"
+   id="rect841"
+   x="0"
+   y="0"
+   style="stroke-width:31.714" />
+<polyline
+   fill="#FFD05C"
+   points="0,511.289 512,-0.711 512,512.712 "
+   id="polyline843" />
+<g
+   id="g851">
+	<g
+   id="g849">
+		<path
+   fill="#FEFFFF"
+   d="M14,512.712 M0,512V341.5l147.689-99.01c0-2.844,0-5.689,0-8.533c0-51.2,36.978-91.022,88.178-96.711    c2.844,0,5.689,0,11.378,0c34.132,0,65.421,17.067,82.488,45.511c8.533-2.844,17.066-2.844,25.6-2.844    c11.379,0,22.756,0,34.135,2.844c19.91,5.689,39.822,14.222,56.889,25.6c-17.066-5.689-34.133-8.533-54.045-8.533    c-34.133,0-62.578,11.377-82.488,39.822c-19.912,25.6-31.289,56.889-31.289,91.021c0,42.667-11.377,82.489-36.978,119.467    C233.022,461.512,176.75,512,176.75,512H0z"
+   id="path845" />
+		<circle
+   fill="#FDB714"
+   cx="284.445"
+   cy="182.756"
+   r="14.222"
+   id="circle847" />
 	</g>
 </g>
 </svg>
