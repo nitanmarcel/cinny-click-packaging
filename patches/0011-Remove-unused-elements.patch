@@ -1,0 +1,37 @@
+From 70635ecc148c6215fdc0c556d879da739f3a1d0a Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Mon, 4 Apr 2022 22:35:58 +0300
+Subject: [PATCH] Remove unused elements
+
+---
+ src/app/organisms/settings/Settings.jsx | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/src/app/organisms/settings/Settings.jsx b/src/app/organisms/settings/Settings.jsx
+index c55032a..8c92b8c 100644
+--- a/src/app/organisms/settings/Settings.jsx
++++ b/src/app/organisms/settings/Settings.jsx
+@@ -262,12 +262,14 @@ const tabItems = [{
+   iconSrc: SunIC,
+   disabled: false,
+   render: () => <AppearanceSection />,
+-}, {
+-  text: tabText.NOTIFICATIONS,
+-  iconSrc: BellIC,
+-  disabled: false,
+-  render: () => <NotificationsSection />,
+-}, {
++}, 
++// {
++//   text: tabText.NOTIFICATIONS,
++//   iconSrc: BellIC,
++//   disabled: false,
++//   render: () => <NotificationsSection />,
++// }, 
++{
+   text: tabText.SECURITY,
+   iconSrc: LockIC,
+   disabled: false,
+-- 
+2.30.2
+
