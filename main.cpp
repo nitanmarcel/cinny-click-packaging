@@ -21,18 +21,55 @@
 #include <QObject>
 #include <QQuickView>
 #include <QtQuickControls2/QQuickStyle>
+
+#include "qhttpserver.hpp"
+#include "qhttpserverconnection.hpp"
+#include "qhttpserverrequest.hpp"
+#include "qhttpserverresponse.hpp"
+
+#include <map>
 #include <stdlib.h>
+
+std::map<std::string, std::string> mimes;
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QGuiApplication *app = new QGuiApplication(argc, (char**)argv);
+    QGuiApplication *app = new QGuiApplication(argc, (char **)argv);
     QQuickStyle::setStyle("Suru");
     app->setApplicationName("cinny.nitanmarcel");
 
-    qDebug() << "Starting app from main.cpp";
-    qDebug() << "App Path " << app->applicationDirPath();
+    mimes[".html"] = "text/html";
+    mimes[".css"] = "text/css";
+    mimes[".js"] = "application/javascript";
+    mimes[".wasm"] = "application/wasm";
+    mimes[".woff2"] = "application/font-woff2";
+    mimes[".png"] = "image/png";
+    mimes[".icon"] = "image/x-icon";
+
+    qhttp::server::QHttpServer server;
+    server.listen(QHostAddress::LocalHost, 19999,
+                  [](qhttp::server::QHttpRequest *req, qhttp::server::QHttpResponse *res)
+                  {
+                      QString docname = "./target/" + (req->url().toString()==("/") ?("/index.html"):req->url().toString());
+                      if (!QFile(docname).exists())
+                          docname = QString("./target/index.html");
+                      QFile doc(docname);
+                      doc.open(QFile::ReadOnly);
+
+                      res->addHeader("Content-Length", QString::number(doc.size()).toUtf8());
+                      res->addHeader("Connection", "keep-alive");
+
+                      auto doc_str = docname.toStdString();
+                      auto doc_ext = doc_str.substr(doc_str.find_last_of('.'));
+                      if (mimes.count(doc_ext) > 0)
+                          res->addHeader("Content-Type", mimes[doc_ext].data());
+                      else
+                          res->addHeader("Content-Type", "application/octet-stream");
+                      res->setStatusCode(qhttp::TStatusCode::ESTATUS_OK);
+                      res->end(doc.readAll());
+                  });
 
     QQuickView *view = new QQuickView();
     view->setSource(QUrl("qrc:/Main.qml"));
