@@ -144,6 +144,21 @@ MainView {
                 }
 
             }
+
+            Connections {
+                target: UriHandler
+            
+                onOpened: {
+                    console.log('Open from UriHandler')
+            
+                    if (uris.length > 0) {
+                        if (uris[0].match(/^cinny:\/\/sso\/\?loginToken=.*/)) {
+                            webView.url = "http://localhost:19999/" + uris[0].replace("cinny://sso/", "");
+                        }
+                    }
+                }
+            }
+
             WebChannel {
                 id: channel
                 registeredObjects: [webChannelObject]

@@ -1,0 +1,25 @@
+From 6f942f835c6dd39054c2e37b7754f4a2bcb5b5b3 Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Mon, 4 Apr 2022 22:03:21 +0300
+Subject: [PATCH] Open SSO login in a new window
+
+---
+ src/client/action/auth.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/client/action/auth.js b/src/client/action/auth.js
+index f9be13b..f28cefb 100644
+--- a/src/client/action/auth.js
++++ b/src/client/action/auth.js
+@@ -15,7 +15,7 @@ function createTemporaryClient(baseUrl) {
+ async function startSsoLogin(baseUrl, type, idpId) {
+   const client = createTemporaryClient(baseUrl);
+   localStorage.setItem(cons.secretKey.BASE_URL, client.baseUrl);
+-  window.location.href = client.getSsoLoginUrl(window.location.href, type, idpId);
++  window.open(client.getSsoLoginUrl("cinny://sso/", type, idpId));
+ }
+ 
+ async function login(baseUrl, username, email, password) {
+-- 
+2.30.2
+
