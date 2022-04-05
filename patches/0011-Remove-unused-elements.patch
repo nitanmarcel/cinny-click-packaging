@@ -21,13 +21,13 @@ index c55032a..8c92b8c 100644
 -  disabled: false,
 -  render: () => <NotificationsSection />,
 -}, {
-+}, 
++},
 +// {
 +//   text: tabText.NOTIFICATIONS,
 +//   iconSrc: BellIC,
 +//   disabled: false,
 +//   render: () => <NotificationsSection />,
-+// }, 
++// },
 +{
    text: tabText.SECURITY,
    iconSrc: LockIC,
