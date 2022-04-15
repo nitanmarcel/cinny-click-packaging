@@ -12,3 +12,5 @@ Cinny mobile adaptation by [C0ffeeCode](https://github.com/C0ffeeCode/cinny/comm
 
 Click packaging by [Marcel Alexandru Nitan](https://github.com/nitanmarcel/cinny-click-packaging) [GPLv3](https://github.com/nitanmarcel/cinny-click-packaging/blob/dev/LICENSE) (C) 2022  Marcel Alexandru Nitan.
 
+[![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/cinny.nitanmarcel)
+
