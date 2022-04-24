@@ -1,0 +1,25 @@
+From 4f199154c309bfe6e89f3882605e4ae993a547cb Mon Sep 17 00:00:00 2001
+From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
+Date: Sun, 24 Apr 2022 22:42:06 +0300
+Subject: [PATCH] Rename session name to 'Cinny Ubuntu Touch'
+
+---
+ src/client/state/cons.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/client/state/cons.js b/src/client/state/cons.js
+index 34a3a92..825f010 100644
+--- a/src/client/state/cons.js
++++ b/src/client/state/cons.js
+@@ -6,7 +6,7 @@ const cons = {
+     USER_ID: 'cinny_user_id',
+     BASE_URL: 'cinny_hs_base_url',
+   },
+-  DEVICE_DISPLAY_NAME: 'Cinny Web',
++  DEVICE_DISPLAY_NAME: 'Cinny Ubuntu Touch',
+   IN_CINNY_SPACES: 'in.cinny.spaces',
+   tabs: {
+     HOME: 'home',
+-- 
+2.30.2
+
