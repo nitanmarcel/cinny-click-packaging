@@ -3,8 +3,8 @@
 set -e
 
 export REPO_NAME="cinny"
-export REPO_URL="https://github.com/C0ffeeCode/cinny"
-export REPO_BRANCH="adapt-mobile-width"
+export REPO_URL="https://github.com/ajbura/cinny"
+export REPO_BRANCH="dev"
 export APP_TARGET="dist"
 
 if [ -d "${ROOT}/${REPO_NAME}" ]; then
