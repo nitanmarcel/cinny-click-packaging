@@ -42,7 +42,7 @@ MainView {
             ? UbuntuApplication
                 .inputMethod
                 .keyboardRectangle
-                .height / (units.gridUnit / 8)
+                .height / (units.gridUnit / 8.4)
             : 0
         Behavior on bottomMargin {
             NumberAnimation {
