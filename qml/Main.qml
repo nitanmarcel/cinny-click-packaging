@@ -21,6 +21,7 @@ import Ubuntu.Components.Popups 1.3
 import Ubuntu.PushNotifications 0.1
 import Ubuntu.Content 1.3
 import Ubuntu.DownloadManager 1.2
+import QtQuick.Window 2.12
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
 import QtQml 2.12
@@ -42,7 +43,7 @@ MainView {
             ? UbuntuApplication
                 .inputMethod
                 .keyboardRectangle
-                .height / (units.gridUnit / 8.4)
+                .height / Screen.devicePixelRatio
             : 0
         Behavior on bottomMargin {
             NumberAnimation {
