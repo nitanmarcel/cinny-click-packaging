@@ -15,7 +15,7 @@
                 "push-helper": "push/push.json"
             }
     },
-    "version": "1.8.3",
+    "version": "2.0.0",
     "maintainer": "Marcel Alexandru Nitan <nitan.marcel@protonmail.com>",
     "framework" : "@CLICK_FRAMEWORK@"
 }
