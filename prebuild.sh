@@ -3,7 +3,7 @@
 set -e
 
 export REPO_NAME="cinny"
-export REPO_URL="https://github.com/ajbura/cinny"
+export REPO_URL="https://github.com/cinnyapp/cinny"
 export REPO_BRANCH="dev"
 export APP_TARGET="dist"
 
