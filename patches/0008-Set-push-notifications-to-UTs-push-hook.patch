@@ -1,41 +1,43 @@
-From a47256cf63eaefc54a0a2ec5fec876e90c138d51 Mon Sep 17 00:00:00 2001
+From 4305381292b98fff780bef159014076897569e74 Mon Sep 17 00:00:00 2001
 From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Tue, 14 Jun 2022 13:44:39 +0300
+Date: Thu, 16 Jun 2022 16:05:12 +0300
 Subject: [PATCH] Set push notifications to UTs push hook
 
 ---
- src/client/initMatrix.js | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ src/client/initMatrix.js | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/src/client/initMatrix.js b/src/client/initMatrix.js
-index aec2f3d..7dfa8a6 100644
+index aec2f3d..23c7598 100644
 --- a/src/client/initMatrix.js
 +++ b/src/client/initMatrix.js
-@@ -18,6 +18,18 @@ class InitMatrix extends EventEmitter {
+@@ -2,6 +2,7 @@ import EventEmitter from 'events';
+ import * as sdk from 'matrix-js-sdk';
+ // import { logger } from 'matrix-js-sdk/lib/logger';
+ 
++import { cons } from './state/cons';
+ import { secret } from './state/auth';
+ import RoomList from './state/RoomList';
+ import AccountData from './state/AccountData';
+@@ -18,6 +19,12 @@ class InitMatrix extends EventEmitter {
      await this.startClient();
      this.setupSync();
      this.listenEvents();
 +
-+    try {
-+      this.setPush(QML.settings.pushToken, QML.settings.pushAppId)
++    this.setPush(QML.settings.pushToken, QML.settings.pushAppId)
++    QML.matrixPushTokenChanged.connect(async function (token) {
++      this.setPush(token, QML.settings.pushAppId)
 +
-+      QML.matrixPushTokenChanged.connect(async function (token) {
-+        this.setPush(token, QML.settings.pushAppId)
-+
-+      });
-+    }
-+    catch {
-+      console.log("Failed to update push rules!")
-+    }
++    });
    }
  
    async startClient() {
-@@ -51,6 +63,30 @@ class InitMatrix extends EventEmitter {
+@@ -51,6 +58,30 @@ class InitMatrix extends EventEmitter {
      this.matrixClient.setGlobalErrorOnUnknownDevices(false);
    }
  
 +  setPush(token, appId) {
-+    var promises = []
++    const promises = []
 +
 +    promises.push(
 +    this.matrixClient.setPusher(
@@ -51,11 +53,11 @@ index aec2f3d..7dfa8a6 100644
 +        "kind": "http",
 +        "profile_tag": "xxyyzz",
 +        "pushkey": token
-+      },
-+      function () {}
-+    ))
-+    promises.push(this.matrixClient.setPushRuleEnabled('global', 'content', '.m.rule.contains_user_name', true, function () {}))
-+    Promise.all(promises)
++      }
++    ));
++    promises.push(this.matrixClient.setPushRuleEnabled('global', 'content', '.m.rule.contains_user_name', true));
++    console.error("Set appID " + appId + "with token " + token)
++    return Promise.all(promises);
 +  }
 +
    setupSync() {
