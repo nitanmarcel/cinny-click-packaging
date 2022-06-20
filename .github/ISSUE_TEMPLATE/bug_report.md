@@ -9,7 +9,7 @@ assignees: ''
 
 # Please follow the general troubleshooting steps first:
 
-- [ ] This bug is not reproducible onhttps://app.cinny.in
+- [ ] This bug is not reproducible on https://app.cinny.in
 - [ ] This bug is not mentioned in any issues here or in the [upstream repository](https://github.com/cinnyapp/cinny)
 
 **Describe the bug**
