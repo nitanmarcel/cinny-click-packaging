@@ -63,11 +63,8 @@ MainView {
     }
 
     Component.onCompleted: function () {
-        theme.name = "" // set system theme
+        theme.name = ""
         appSettings.systemTheme = theme.name.substring(theme.name.lastIndexOf(".")+1)
-
-        //appSettings.pushAppId = 'cinny.nitanmarcel_cinny'
-        console.log("appSettings.pushAppId  " + appSettings.pushAppId)
     }
     onActiveChanged: () => {appSettings.windowActive = mainView.active}
 
@@ -97,9 +94,8 @@ MainView {
                 id : webView
                 anchors.fill : parent
                 focus : true
-                url : "http://localhost:19999/" // Qt.resolvedUrl(Backend.getIndexPath())
+                url : "http://localhost:19999/"
                 webChannel: channel
-                //zoomFactor : 2.5
                 settings.pluginsEnabled : true
                 settings.javascriptEnabled : true
                 profile : WebEngineProfile {
@@ -108,8 +104,6 @@ MainView {
                     persistentStoragePath : "/home/phablet/.local/share/cinny.nitanmarcel/QWebEngine"
 
                     onDownloadRequested: function (download) {
-                         console.log("Downloading")
-                         console.log(download.path)
                          download.accept()
                     }
 
@@ -131,19 +125,6 @@ MainView {
                     })
                 }
 
-                onJavaScriptDialogRequested: function (request) {
-                    request.accepted = true;
-                    var popup = PopupUtils.open(jsDialogComponent, this, {"title": request.title, "message": request.message})
-                    popup.dialogAccepted.connect(function () {
-                        request.dialogAccept()
-                        PopupUtils.close(popup)
-                    })
-                    popup.dialogRejected.connect(function () {
-                        request.dialogReject()
-                        PopupUtils.close(popup)
-                    })
-                }
-
                 onFullScreenRequested : function (request) {
                     request.accept()
                     if (request.toggleOn)
@@ -152,20 +133,6 @@ MainView {
                         window.showNormal()
                 }
 
-            }
-
-            Connections {
-                target: UriHandler
-            
-                onOpened: {
-                    console.log('Open from UriHandler')
-            
-                    if (uris.length > 0) {
-                        if (uris[0].match(/^cinny:\/\/sso\/\?loginToken=.*/)) {
-                            webView.url = "http://localhost:19999/" + uris[0].replace("cinny://sso/", "");
-                        }
-                    }
-                }
             }
 
             WebChannel {
@@ -192,36 +159,6 @@ MainView {
                     setCurrentTheme(themeName)
                 }
             }
-
-            Component {
-                id: jsDialogComponent
-
-                Dialog {
-
-                    id: jsDialog
-
-                    title: i18n.tr("Javascript Dialog")
-                    property var message
-
-                    signal dialogAccepted()
-                    signal dialogRejected()
-
-                    Label {
-                        wrapMode: Text.WordWrap
-                        text: jsDialog.message
-                    }
-
-                    Button {
-                        text: i18n.tr("Yes")
-                        color: UbuntuColors.green
-                        onClicked: () => dialogAccepted()
-                    }
-                    Button {
-                        text: i18n.tr("Cancel")
-                        onClicked: () => dialogRejected()
-                    }
-                }
-            }
         }
     }
 
@@ -232,37 +169,6 @@ MainView {
         onTokenChanged: {
             appSettings.pushToken = token
             webChannelObject.matrixPushTokenChanged();
-        }
-
-        function sendPushNotification(icon, title, body) {
-            var req = new XMLHttpRequest();
-            req.open("post", "https://push.ubports.com/notify", true);
-            req.setRequestHeader("Content-type", "application/json");
-            req.onreadystatechange = function() {
-                    if ( req.readyState === XMLHttpRequest.DONE ) {
-                                    console.log("✍ Answer:", req.responseText);
-                    }
-            }
-            var approxExpire = new Date ();
-            approxExpire.setUTCMinutes(approxExpire.getUTCMinutes()+10);
-            req.send(JSON.stringify({
-                    "appid" : "cinny.nitanmarcel_cinny",
-                    "expire_on": approxExpire.toISOString(),
-                    "token": appSettings.pushToken,
-                    "data": {
-                            "notification": {
-                                    "card": {
-                                            "icon": icon,
-                                            "summary": title,
-                                            "body": body,
-                                            "popup": true,
-                                            "persist": true
-                                    },
-                            "vibrate": true,
-                            "sound": true
-                            }
-                    }
-            }));
         }
     }
 }
