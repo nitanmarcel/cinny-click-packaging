@@ -1,36 +1,23 @@
-From 1d1a34526a2ee83c5a050e05f592d2567e0d7ca8 Mon Sep 17 00:00:00 2001
-From: Marcel Alexandru Nitan <nitan.marcel@protonmail.com>
-Date: Sun, 27 Mar 2022 21:16:00 +0300
-Subject: [PATCH] Signal theme change to qml
-
----
- src/client/state/settings.js | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
 diff --git a/src/client/state/settings.js b/src/client/state/settings.js
-index ab4ae6f..7428a67 100644
+index 32f55fc..358c94b 100644
 --- a/src/client/state/settings.js
 +++ b/src/client/state/settings.js
-@@ -58,9 +58,18 @@ class Settings extends EventEmitter {
-     // If use system theme is enabled
-     // we will override current theme choice with system theme
+@@ -59,9 +59,17 @@ class Settings extends EventEmitter {
+   applyTheme() {
+     this._clearTheme();
      if (this.useSystemTheme) {
--      appBody.classList.add('system-theme');
-+      //appBody.classList.add('system-theme');
+-      document.body.classList.add('system-theme');
++      // document.body.classList.add('system-theme');
 +      QML.setTheme('System')
 +      if (QML.settings.systemTheme === 'SuruDark')
 +      {
 +        appBody.classList.add('dark-theme')
 +      }
-     } else if (this.themes[themeIndex] !== '') {
-       appBody.classList.add(this.themes[themeIndex]);
+     } else if (this.themes[this.themeIndex]) {
 +      QML.setTheme(this.themes[themeIndex] === 'silver-theme' ? 'Ambiance' : 'SuruDark')
-+    }
-+    else {
+       document.body.classList.add(this.themes[this.themeIndex]);
++    } else {
 +      QML.setTheme('Ambiance')
      }
-     setSettings('themeIndex', themeIndex);
-     this.themeIndex = themeIndex;
--- 
-2.30.2
-
+   }
+ 
