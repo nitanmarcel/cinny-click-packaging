@@ -7,7 +7,7 @@ export REPO_URL="https://github.com/cinnyapp/cinny"
 export REPO_BRANCH="dev"
 export APP_TARGET="dist"
 
-export REPO_VERSION="2.0.4"
+export REPO_VERSION="2.1.2"
 export CLICK_VERSION_PREFIX="notificationfix1"
 
 if [ -d "${ROOT}/${REPO_NAME}" ]; then
@@ -22,6 +22,7 @@ cd "${ROOT}/${REPO_NAME}"
 if [ -d "${ROOT}/patches" ]; then
     echo "Applying patches"
     for patch in ${ROOT}/patches/*.patch; do
+        echo "Applying $patch"
         git apply ${patch}
     done
 fi
