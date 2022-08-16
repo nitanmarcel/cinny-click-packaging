@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Setup node
-        uses: actions/setup-node@v3.4.1
+        uses: actions/setup-node@v3
         with:
           node-version: 17.9.0
       - name: Parse version
