@@ -1,45 +1,71 @@
 #!/bin/bash
 
-set -e
+set -e 
+REPO_NAME="cinny"
+REPO_URL="https://github.com/cinnyapp/cinny"
+REPO_BRANCH="dev"
+APP_TARGET="dist"
 
-export REPO_NAME="cinny"
-export REPO_URL="https://github.com/cinnyapp/cinny"
-export REPO_BRANCH="dev"
-export APP_TARGET="dist"
+REPO_VERSION="2.1.2"
+CLICK_VERSION_PREFIX=""
 
-export REPO_VERSION="2.1.2"
-export CLICK_VERSION_PREFIX="notificationfix1"
+NODE_VERSION="v16.15.0"
 
-if [ -d "${ROOT}/${REPO_NAME}" ]; then
+
+walk () {
+  echo "Entering $1"
+  cd $1
+}
+
+cleanup () {
+  if [ -d "${ROOT}/${REPO_NAME}" ]; then
     echo "Cleaning up"
     rm -rf "${ROOT}/${REPO_NAME}" "${ROOT}/target"
-fi
-echo "Cloning source repo"
+  fi
+}
 
-git clone "${REPO_URL}" -b "${REPO_BRANCH}" "${ROOT}/${REPO_NAME}" --depth=1 --branch="v${REPO_VERSION}"
-cd "${ROOT}/${REPO_NAME}"
+clone () {
+  echo "Cloning source repo"
+  git clone "${REPO_URL}" "${ROOT}/${REPO_NAME}" --depth=1 --branch="v${REPO_VERSION}"
+}
 
-if [ -d "${ROOT}/patches" ]; then
-    echo "Applying patches"
+apply_patches () {
+  echo "Patching cinny source code"
+  if [ -d "${ROOT}/patches" ]; then
     for patch in ${ROOT}/patches/*.patch; do
-        echo "Applying $patch"
-        git apply ${patch}
+      echo "Applying $patch"
+      git apply ${patch}
     done
-fi
+  fi
+  cp "${ROOT}/svg/cinny_512.svg" "${ROOT}/assets/logo.svg"
+  cp "${ROOT}/svg/cinny_18.svg" "${ROOT}/cinny/public/res/svg/cinny.svg"
+}
 
-echo "Copying icons"
-cp "${ROOT}/svg/cinny_512.svg" "${ROOT}/assets/logo.svg"
-cp "${ROOT}/svg/cinny_18.svg" "${ROOT}/cinny/public/res/svg/cinny.svg"
 
-echo "Run npm install"
-npm install
-echo "Run npm build"
-npm run build
-echo "Copying ${APP_TARGET}"
-cp -r "${APP_TARGET}" "${ROOT}/target"
+setup_node () {
+  echo "Setting up node $NODE_VERSION"
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+  nvm install $NODE_VERSION
+}
 
-sed -i "s/@CLICK_VERSION@/$REPO_VERSION$CLICK_VERSION_PREFIX/g" "${ROOT}/manifest.json.in"
+build () {
+  echo "Building cinny"
+  npm install
+  npm run build
+}
 
-cat "${ROOT}/manifest.json.in"
+package () {
+  echo "Packaging cinny"
+  cp -r "${APP_TARGET}" "${ROOT}/target"
+  sed -i "s/@CLICK_VERSION@/$REPO_VERSION$CLICK_VERSION_PREFIX/g" "${ROOT}/manifest.json.in"
+}
 
-echo "Done. Creating click package."
+cleanup
+clone
+walk "${ROOT}/${REPO_NAME}"
+apply_patches
+setup_node
+build
+package
