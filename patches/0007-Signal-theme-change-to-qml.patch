@@ -11,10 +11,10 @@ index 32f55fc..358c94b 100644
 +      QML.setTheme('System')
 +      if (QML.settings.systemTheme === 'SuruDark')
 +      {
-+        appBody.classList.add('dark-theme')
++        document.body.classList.add('dark-theme')
 +      }
      } else if (this.themes[this.themeIndex]) {
-+      QML.setTheme(this.themes[themeIndex] === 'silver-theme' ? 'Ambiance' : 'SuruDark')
++      QML.setTheme(this.themes[this.themeIndex] === 'silver-theme' ? 'Ambiance' : 'SuruDark')
        document.body.classList.add(this.themes[this.themeIndex]);
 +    } else {
 +      QML.setTheme('Ambiance')
