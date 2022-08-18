@@ -2,8 +2,5 @@ clickable_minimum_required: 7.1.2
 builder: cmake
 kill: cinny
 prebuild: "bash ${ROOT}/prebuild.sh"
-dependencies_host:
-  - git
-  - nodejs
 install_root_data: 
   - "${ROOT}/target"
