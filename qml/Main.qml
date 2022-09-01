@@ -135,6 +135,15 @@ MainView {
 
             }
 
+            Connections {
+                target: UriHandler
+
+                onOpened: {
+                    let result = uris[0].toString().replace("cinny://sso/", webView.url.toString())
+                    webView.url = result
+                  }
+              }
+
             WebChannel {
                 id: channel
                 registeredObjects: [webChannelObject]
