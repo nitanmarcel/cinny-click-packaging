@@ -1,13 +1,14 @@
 #!/bin/bash
 
 set -e 
+
 REPO_NAME="cinny"
 REPO_URL="https://github.com/cinnyapp/cinny"
 REPO_BRANCH="dev"
 APP_TARGET="dist"
 
-REPO_VERSION="2.1.2"
-CLICK_VERSION_PREFIX="fixtheming"
+REPO_VERSION="2.1.3"
+CLICK_VERSION_PREFIX=""
 
 NODE_VERSION="v16.15.0"
 
