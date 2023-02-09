@@ -16,11 +16,11 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.1
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.3
-import Ubuntu.PushNotifications 0.1
-import Ubuntu.Content 1.3
-import Ubuntu.DownloadManager 1.2
+import Lomiri.Components 1.3
+import Lomiri.Components.Popups 1.3
+import Lomiri.PushNotifications 0.1
+import Lomiri.Content 1.3
+import Lomiri.DownloadManager 1.2
 import QtQuick.Window 2.12
 import QtQuick.Layouts 1.3
 import Qt.labs.settings 1.0
@@ -39,8 +39,8 @@ MainView {
     backgroundColor : "transparent"
     anchors {
         fill : parent
-        bottomMargin : UbuntuApplication.inputMethod.visible
-            ? UbuntuApplication
+        bottomMargin : LomiriApplication.inputMethod.visible
+            ? LomiriApplication
                 .inputMethod
                 .keyboardRectangle
                 .height / Screen.devicePixelRatio
@@ -73,16 +73,16 @@ MainView {
               theme.name = "";
             }
             else if (themeName === "SuruDark") {
-                theme.name = "Ubuntu.Components.Themes.SuruDark"
+                theme.name = "Lomiri.Components.Themes.SuruDark"
             }
             else if (themeName === "Ambiance") {
-                theme.name = "Ubuntu.Components.Themes.Ambiance"
+                theme.name = "Lomiri.Components.Themes.Ambiance"
             }
             else {
               theme.name = "";
             }
         }
-    
+
     PageStack {
         id : mainPageStack
         anchors.fill : parent

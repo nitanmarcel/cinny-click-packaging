@@ -4,4 +4,4 @@ Exec=cinny %U
 Icon=assets/logo.svg
 Terminal=false
 Type=Application
-X-Ubuntu-Touch=true
+X-Lomiri-Touch=true
