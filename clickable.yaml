@@ -1,6 +1,7 @@
 clickable_minimum_required: 7.1.2
 builder: cmake
+framework: ubuntu-sdk-20.04
 kill: cinny
 prebuild: "bash ${ROOT}/prebuild.sh"
-install_root_data: 
+install_root_data:
   - "${ROOT}/target"
