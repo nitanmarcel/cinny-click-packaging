@@ -1,5 +1,9 @@
 # Cinny Click Packaging
 
+# Repository moved to
+
+https://github.com/Danfro/cinny-ut
+
 Cinny is a Matrix client focusing primarily on simple, elegant and secure interface.
 
 ## License
